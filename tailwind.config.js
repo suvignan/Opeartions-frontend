@@ -1,0 +1,72 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "on-primary-container": "var(--color-on-primary-container)",
+        "surface-container-lowest": "var(--color-surface-container-lowest)",
+        "primary-container": "var(--color-primary-container)",
+        "surface-container-low": "var(--color-surface-container-low)",
+        "tertiary-fixed-dim": "var(--color-tertiary-fixed-dim)",
+        "inverse-on-surface": "var(--color-inverse-on-surface)",
+        "inverse-primary": "var(--color-inverse-primary)",
+        "on-error": "var(--color-on-error)",
+        "on-secondary-container": "var(--color-on-secondary-container)",
+        "surface-dim": "var(--color-surface-dim)",
+        "on-secondary-fixed-variant": "var(--color-on-secondary-fixed-variant)",
+        "on-secondary-fixed": "var(--color-on-secondary-fixed)",
+        "surface-variant": "var(--color-surface-variant)",
+        "on-tertiary": "var(--color-on-tertiary)",
+        "tertiary-container": "var(--color-tertiary-container)",
+        "secondary": "var(--color-secondary)",
+        "error-container": "var(--color-error-container)",
+        "on-secondary": "var(--color-on-secondary)",
+        "on-primary-fixed-variant": "var(--color-on-primary-fixed-variant)",
+        "surface-container-highest": "var(--color-surface-container-highest)",
+        "on-tertiary-fixed-variant": "var(--color-on-tertiary-fixed-variant)",
+        "on-error-container": "var(--color-on-error-container)",
+        "primary-fixed": "var(--color-primary-fixed)",
+        "surface-container-high": "var(--color-surface-container-high)",
+        "error": "var(--color-error)",
+        "primary-fixed-dim": "var(--color-primary-fixed-dim)",
+        "background": "var(--color-background)",
+        "outline": "var(--color-outline)",
+        "on-background": "var(--color-on-background)",
+        "on-primary-fixed": "var(--color-on-primary-fixed)",
+        "surface-container": "var(--color-surface-container)",
+        "tertiary": "var(--color-tertiary)",
+        "surface-bright": "var(--color-surface-bright)",
+        "on-surface-variant": "var(--color-on-surface-variant)",
+        "inverse-surface": "var(--color-inverse-surface)",
+        "surface-tint": "var(--color-surface-tint)",
+        "outline-variant": "var(--color-outline-variant)",
+        "secondary-container": "var(--color-secondary-container)",
+        "on-tertiary-container": "var(--color-on-tertiary-container)",
+        "on-tertiary-fixed": "var(--color-on-tertiary-fixed)",
+        "on-primary": "var(--color-on-primary)",
+        "on-surface": "var(--color-on-surface)",
+        "surface": "var(--color-surface)",
+        "secondary-fixed": "var(--color-secondary-fixed)",
+        "tertiary-fixed": "var(--color-tertiary-fixed)",
+        "secondary-fixed-dim": "var(--color-secondary-fixed-dim)",
+        "primary": "var(--color-primary)"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      "fontFamily": {
+        "headline": ["Manrope"],
+        "body": ["Inter"],
+        "label": ["Inter"]
+      }
+    },
+  },
+  plugins: [],
+}
