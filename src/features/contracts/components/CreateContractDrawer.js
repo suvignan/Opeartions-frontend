@@ -144,7 +144,6 @@ export const CreateContractDrawer = ({ isOpen, onClose, onSuccess }) => {
                   >
                     <option value="SUBSCRIPTION">Subscription</option>
                     <option value="MSA">MSA</option>
-                    <option value="NDA">NDA</option>
                     <option value="PARTNERSHIP">Partnership</option>
                   </select>
                 </div>

@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const CreateContractSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters").max(200, "Title is too long"),
-  type: z.enum(['SUBSCRIPTION', 'MSA', 'NDA', 'PARTNERSHIP']),
+  type: z.enum(['SUBSCRIPTION', 'MSA',  'PARTNERSHIP']),
   
   counterparty: z.object({
     id: z.string().nullable().optional(),

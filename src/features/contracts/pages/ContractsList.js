@@ -9,7 +9,7 @@ import { CreateContractDrawer } from '../components/CreateContractDrawer';
 
 export const ContractsList = () => {
   // ── States ─────────────────────────────────────────────────────────
-  const [params, setParams] = useState({ page: 1, limit: 10, status: null });
+  const [params, setParams] = useState({ page: 1, limit: 10, status: 'ACTIVE' });
   const { data: contracts, meta, loading, error, retry } = useContracts(params);
   
   const [selectedContractId, setSelectedContractId] = useState(null);
@@ -21,8 +21,7 @@ export const ContractsList = () => {
   };
 
   const handleStatusFilterChange = (e) => {
-    const val = e.target.value;
-    setParams(prev => ({ ...prev, page: 1, status: val === 'ALL_DEFAULT' ? null : val }));
+    setParams(prev => ({ ...prev, page: 1, status: e.target.value }));
   };
 
   const columns = [
@@ -61,13 +60,13 @@ export const ContractsList = () => {
         <div className="flex gap-2">
           <select 
             className="p-2 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface text-sm outline-none focus:border-primary"
-            value={params.status || 'ALL_DEFAULT'}
+            value={params.status}
             onChange={handleStatusFilterChange}
           >
-            <option value="ALL_DEFAULT">All Active & Expired</option>
-            <option value="ACTIVE">Active Only</option>
+            <option value="ALL">All</option>
+            <option value="ACTIVE">Active</option>
+            <option value="EXPIRED">Expired</option>
             <option value="ARCHIVED">Archived</option>
-            <option value="ALL">Everything (Inc. Archived)</option>
           </select>
           <Button onClick={() => setIsCreateOpen(true)}>
             <Plus size={16} /> New Contract

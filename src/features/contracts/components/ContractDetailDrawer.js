@@ -220,7 +220,6 @@ export const ContractDetailDrawer = ({ id, onClose }) => {
                     <select className="w-full p-2 border rounded" value={editData.type} onChange={e=>setEditData(d=>({...d, type: e.target.value}))} disabled={isSaving}>
                       <option value="SUBSCRIPTION">Subscription</option>
                       <option value="MSA">MSA</option>
-                      <option value="NDA">NDA</option>
                       <option value="PARTNERSHIP">Partnership</option>
                     </select>
                   </div>
