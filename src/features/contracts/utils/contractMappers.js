@@ -24,9 +24,9 @@ export const mapContractResponse = (apiContract) => {
     },
     
     financials: {
-      tcvCents: apiContract.financials.tcv_cents || 0,
-      acvCents: apiContract.financials.acv_cents || 0,
-      currency: apiContract.financials.currency || 'USD'
+      tcvCents: apiContract.financials?.tcv_cents || 0,
+      acvCents: apiContract.financials?.acv_cents || 0,
+      currency: apiContract.financials?.currency || 'USD'
     },
     
     timeline: {

@@ -10,8 +10,6 @@ export const CreateContractSchema = z.object({
   }),
   
   financials: z.object({
-    tcvCents: z.number().int().min(0, "Total Contract Value cannot be negative"),
-    acvCents: z.number().int().min(0, "Annual Contract Value cannot be negative"),
     currency: z.string().min(3).max(3), // ISO-4217 roughly
     paymentSchedule: z.enum(['MONTHLY', 'QUARTERLY', 'ANNUALLY', 'CUSTOM'])
   }),

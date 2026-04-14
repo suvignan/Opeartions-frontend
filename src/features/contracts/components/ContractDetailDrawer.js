@@ -23,8 +23,6 @@ export const ContractDetailDrawer = ({ id, onClose }) => {
       type: contract.type || 'SUBSCRIPTION',
       counterpartyId: contract.counterparty?.id || '',
       counterpartyName: contract.counterparty?.name || '',
-      tcv: (contract.financials?.tcvCents / 100) || '',
-      acv: (contract.financials?.acvCents / 100) || '',
       currency: contract.financials?.currency || 'USD',
       startDate: contract.timeline?.startDate || '',
       endDate: contract.timeline?.endDate || '',
@@ -57,11 +55,7 @@ export const ContractDetailDrawer = ({ id, onClose }) => {
     // 2. Financials
     const currFin = contract.financials || {};
     const finPayload = {};
-    const newTcv = parseInt(String(editData.tcv).replace(/[^0-9]/g, ''), 10) * 100;
-    const newAcv = parseInt(String(editData.acv).replace(/[^0-9]/g, ''), 10) * 100;
 
-    if (!isNaN(newTcv) && newTcv !== currFin.tcvCents) finPayload.tcv_cents = newTcv;
-    if (!isNaN(newAcv) && newAcv !== currFin.acvCents) finPayload.acv_cents = newAcv;
     if (editData.currency !== currFin.currency) finPayload.currency = editData.currency;
     if (Object.keys(finPayload).length > 0) payload.financials = finPayload;
 
@@ -232,20 +226,12 @@ export const ContractDetailDrawer = ({ id, onClose }) => {
                   <label className="block text-xs font-bold text-on-surface-variant mb-1">Counterparty Name</label>
                   <input className="w-full p-2 border rounded" value={editData.counterpartyName} onChange={e=>setEditData(d=>({...d, counterpartyName: e.target.value}))} disabled={isSaving} placeholder="Company Name" />
                 </div>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-on-surface-variant mb-1">Currency</label>
                     <select className="w-full p-2 border rounded" value={editData.currency} onChange={e=>setEditData(d=>({...d, currency: e.target.value}))} disabled={isSaving}>
                       <option value="USD">USD</option><option value="EUR">EUR</option>
                     </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-on-surface-variant mb-1">TCV</label>
-                    <input className="w-full p-2 border rounded" value={editData.tcv} onChange={e=>setEditData(d=>({...d, tcv: e.target.value}))} disabled={isSaving} />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-on-surface-variant mb-1">ACV</label>
-                    <input className="w-full p-2 border rounded" value={editData.acv} onChange={e=>setEditData(d=>({...d, acv: e.target.value}))} disabled={isSaving} />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -262,8 +248,8 @@ export const ContractDetailDrawer = ({ id, onClose }) => {
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase">Value</p>
-                  <p className="text-lg font-semibold">${((contract.financials?.tcvCents||0)/100).toLocaleString()}</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase">Currency</p>
+                  <p className="text-lg font-semibold">{contract.financials?.currency}</p>
                 </div>
                 <div>
                   <p className="text-[10px] font-bold text-slate-400 uppercase">Start Date</p>

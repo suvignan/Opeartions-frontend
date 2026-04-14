@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   title: '',
   type: 'SUBSCRIPTION',
   counterparty: { id: null, name: '' },
-  financials: { tcv: '', acv: '', currency: 'USD', paymentSchedule: 'MONTHLY' },
+  financials: { currency: 'USD', paymentSchedule: 'MONTHLY' },
   timeline: { startDate: '', endDate: '', autoRenew: true },
   metadata: { noticePeriodDays: 30 }
 };
@@ -39,8 +39,6 @@ export const CreateContractDrawer = ({ isOpen, onClose, onSuccess }) => {
         type: formData.type,
         counterparty: formData.counterparty,
         financials: {
-          tcvCents: parseInt((formData.financials.tcv || '0').replace(/[^0-9]/g, ''), 10) * 100, // naive string to cents
-          acvCents: parseInt((formData.financials.acv || '0').replace(/[^0-9]/g, ''), 10) * 100,
           currency: formData.financials.currency,
           paymentSchedule: formData.financials.paymentSchedule
         },
@@ -62,9 +60,10 @@ export const CreateContractDrawer = ({ isOpen, onClose, onSuccess }) => {
         title: validatedData.title,
         type: validatedData.type,
         financials: {
-          tcv_cents: validatedData.financials.tcvCents,
-          acv_cents: validatedData.financials.acvCents,
-          currency: validatedData.financials.currency
+          tcv_cents: 0,
+          acv_cents: 0,
+          currency: validatedData.financials.currency,
+          payment_schedule: validatedData.financials.paymentSchedule
         },
         timeline: {
           start_date: validatedData.timeline.startDate,
@@ -105,10 +104,6 @@ export const CreateContractDrawer = ({ isOpen, onClose, onSuccess }) => {
       setIsSubmitting(false);
     }
   };
-
-  // Intelligence
-  const numericTcv = parseInt((formData.financials.tcv || '0').replace(/[^0-9]/g, ''));
-  const showWarning = numericTcv > 100000 && formData.financials.paymentSchedule === 'CUSTOM';
 
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="New Contract" width="max-w-2xl">
@@ -167,15 +162,8 @@ export const CreateContractDrawer = ({ isOpen, onClose, onSuccess }) => {
               <h3 className="text-sm font-bold text-tertiary uppercase tracking-widest">2. Financials</h3>
             </div>
             
-            {showWarning && (
-              <div className="flex items-center gap-2 p-3 bg-error-container/20 border border-error/20 rounded-lg text-error text-sm">
-                <span className="material-symbols-outlined">warning</span>
-                <span>High-value contract (&gt;$100k) missing standard payment schedule.</span>
-              </div>
-            )}
-
-            <div className="grid grid-cols-3 gap-4">
-              <div className="col-span-1">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div>
                 <label className="block text-xs font-bold text-on-surface-variant mb-1">Currency</label>
                 <select 
                   value={formData.financials.currency} 
@@ -186,24 +174,6 @@ export const CreateContractDrawer = ({ isOpen, onClose, onSuccess }) => {
                   <option value="EUR">EUR</option>
                   <option value="GBP">GBP</option>
                 </select>
-              </div>
-              <div className="col-span-1">
-                <label className="block text-xs font-bold text-on-surface-variant mb-1">TCV</label>
-                <input 
-                  value={formData.financials.tcv} 
-                  onChange={e => setForm({...formData, financials: {...formData.financials, tcv: e.target.value}})}
-                  placeholder="Total Value" 
-                  className="w-full p-2 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface text-sm outline-none focus:border-primary" 
-                />
-              </div>
-              <div className="col-span-1">
-                <label className="block text-xs font-bold text-on-surface-variant mb-1">ACV</label>
-                <input 
-                  value={formData.financials.acv} 
-                  onChange={e => setForm({...formData, financials: {...formData.financials, acv: e.target.value}})}
-                  placeholder="Annual Value" 
-                  className="w-full p-2 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface text-sm outline-none focus:border-primary" 
-                />
               </div>
             </div>
             

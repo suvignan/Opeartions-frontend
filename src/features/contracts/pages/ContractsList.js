@@ -9,7 +9,7 @@ import { CreateContractDrawer } from '../components/CreateContractDrawer';
 
 export const ContractsList = () => {
   // ── States ─────────────────────────────────────────────────────────
-  const [params, setParams] = useState({ page: 1, limit: 10, status: 'ACTIVE' });
+  const [params, setParams] = useState({ page: 1, limit: 10, status: 'ALL' });
   const { data: contracts, meta, loading, error, retry } = useContracts(params);
   
   const [selectedContractId, setSelectedContractId] = useState(null);
@@ -30,7 +30,6 @@ export const ContractsList = () => {
     { header: 'Company', accessor: 'company', render: (row) => <span className="text-slate-500">{row.counterparty?.name || 'Unknown'}</span> },
     { header: 'Date Added', accessor: 'dateAdded', render: (row) => <span className="text-slate-500">{row.audit?.createdAt ? new Date(row.audit.createdAt).toLocaleDateString() : 'N/A'}</span> },
     { header: 'End Date', accessor: 'expires', render: (row) => <span className="text-slate-500">{row.timeline?.endDate ? new Date(row.timeline.endDate).toLocaleDateString() : 'N/A'}</span> },
-    { header: 'Value', accessor: 'value', render: (row) => <span className="text-slate-700 font-medium">${((row.financials?.tcvCents || 0) / 100).toLocaleString()} {row.financials?.currency}</span> },
     { header: 'Status', accessor: 'status', render: (row) => <StatusBadge status={row.status} /> },
     { 
       header: '', 
