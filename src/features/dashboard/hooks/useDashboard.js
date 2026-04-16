@@ -16,13 +16,19 @@ export const useDashboard = () => {
         getContracts()
       ]);
 
+      const contracts = Array.isArray(allContracts?.data)
+        ? allContracts.data
+        : Array.isArray(allContracts)
+          ? allContracts
+          : [];
+
       // FRONTEND DERIVED LOGIC
       // Compute actual expiring soon list directly based on real date diffs
       const now = new Date();
-      const expiringList = allContracts
-        .filter(c => c.expires && c.status === 'Active')
+      const expiringList = contracts
+        .filter(c => c.timeline?.endDate && c.status === 'ACTIVE')
         .map(c => {
-          const expiresDate = new Date(c.expires);
+          const expiresDate = new Date(c.timeline.endDate);
           const diffTime = expiresDate - now;
           const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
           return { ...c, daysLeft: diffDays };
@@ -37,9 +43,15 @@ export const useDashboard = () => {
         expiringContractsList: expiringList
       };
 
+      const recentContracts = [...contracts].sort((a, b) => {
+        const aTime = a.audit?.createdAt ? new Date(a.audit.createdAt).getTime() : 0;
+        const bTime = b.audit?.createdAt ? new Date(b.audit.createdAt).getTime() : 0;
+        return bTime - aTime;
+      });
+
       setStats({
         ...computedStats,
-        recentContracts: allContracts.slice(0, 5)
+        recentContracts: recentContracts.slice(0, 5)
       });
     } catch (err) {
       setError(err.message || 'Failed to load dashboard data.');

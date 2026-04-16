@@ -25,7 +25,7 @@ export const ContractsList = () => {
   };
 
   const columns = [
-    { header: 'ID', accessor: 'id', render: (row) => <span className="font-mono text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded truncate max-w-[80px] inline-block" title={row.id}>{row.id}</span> },
+    { header: 'Contract ID', accessor: 'contract_code', render: (row) => <span className="font-mono text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded truncate max-w-[120px] inline-block" title={row.contract_code || row.id}>{row.contract_code || row.id}</span> },
     { header: 'Title', accessor: 'title', render: (row) => <span className="font-semibold text-slate-700">{row.title}</span> },
     { header: 'Company', accessor: 'company', render: (row) => <span className="text-slate-500">{row.counterparty?.name || 'Unknown'}</span> },
     { header: 'Start Date', accessor: 'dateAdded', render: (row) => <span className="text-slate-500">{row.audit?.createdAt ? new Date(row.audit.createdAt).toLocaleDateString() : 'N/A'}</span> },

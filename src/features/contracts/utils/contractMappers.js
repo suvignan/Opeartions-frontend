@@ -14,6 +14,8 @@ export const mapContractResponse = (apiContract) => {
 
   return {
     id: String(apiContract.id),
+    contract_code: apiContract.contract_code || null,
+    contractCode: apiContract.contract_code || null,
     title: apiContract.title,
     type: apiContract.type,
     status: apiContract.status,

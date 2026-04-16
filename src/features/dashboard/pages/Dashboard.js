@@ -46,7 +46,7 @@ export const Dashboard = () => {
   }
 
   const contractColumns = [
-    { header: 'ID', accessor: 'id', render: (row) => <span className="font-mono text-[10px] text-slate-400 bg-slate-100 px-1 py-0.5 rounded truncate max-w-[80px] inline-block" title={row.id}>{row.id}</span> },
+    { header: 'Contract ID', accessor: 'contract_code', render: (row) => <span className="font-mono text-[10px] text-slate-400 bg-slate-100 px-1 py-0.5 rounded truncate max-w-[120px] inline-block" title={row.contract_code || 'Pending generation'}>{row.contract_code || 'Pending generation'}</span> },
     { header: 'Client / Project', accessor: 'title', render: (row) => (
       <div>
         <p className="font-bold">{row.company}</p>
