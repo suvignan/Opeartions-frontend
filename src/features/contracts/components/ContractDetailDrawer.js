@@ -9,6 +9,12 @@ import { updateContract, updateContractStatus } from '../services/contractApi';
 
 export const ContractDetailDrawer = ({ id, onClose }) => {
   const { data: contract, loading, error, retry } = useContractDetail(id);
+
+  React.useEffect(() => {
+    if (contract) {
+      console.log("Rendered contract:", contract);
+    }
+  }, [contract]);
   
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -21,7 +27,6 @@ export const ContractDetailDrawer = ({ id, onClose }) => {
     setEditData({
       title: contract.title || '',
       type: contract.type || 'SUBSCRIPTION',
-      counterpartyId: contract.counterparty?.id || '',
       counterpartyName: contract.counterparty?.name || '',
       currency: contract.financials?.currency || 'USD',
       startDate: contract.timeline?.startDate || '',
@@ -47,9 +52,6 @@ export const ContractDetailDrawer = ({ id, onClose }) => {
     if (editData.counterpartyName !== oldCp.name) {
       // They changed the name; send the name (backend will resolve/create).
       payload.counterparty = { name: editData.counterpartyName };
-    } else if (editData.counterpartyId !== String(oldCp.id || '')) {
-      // (Fallback) They somehow changed the ID, send ID.
-      if (editData.counterpartyId) payload.counterparty_id = editData.counterpartyId;
     }
 
     // 2. Financials
@@ -148,6 +150,9 @@ export const ContractDetailDrawer = ({ id, onClose }) => {
               ) : (
                 <>
                   <h2 className="text-3xl font-bold tracking-tight text-on-surface">{contract.title}</h2>
+                  <p className="mt-2 text-sm font-semibold text-on-surface-variant">
+                    Contract ID: <span className="font-mono text-on-surface">{contract.contract_code || contract.id}</span>
+                  </p>
                   <p className="text-slate-500 mt-2 font-medium">Counterparty: {contract.counterparty?.name}</p>
                 </>
               )}
@@ -216,10 +221,6 @@ export const ContractDetailDrawer = ({ id, onClose }) => {
                       <option value="MSA">MSA</option>
                       <option value="PARTNERSHIP">Partnership</option>
                     </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-on-surface-variant mb-1">Counterparty ID (Locked)</label>
-                    <input className="w-full p-2 border rounded bg-slate-50 text-slate-400 cursor-not-allowed" value={editData.counterpartyId} readOnly disabled placeholder="UUID" title="Counterparty ID cannot be edited explicitly" />
                   </div>
                 </div>
                 <div>

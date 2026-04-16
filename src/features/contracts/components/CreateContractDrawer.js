@@ -4,10 +4,12 @@ import { FileUpload } from '../../../shared/components/FileUpload';
 import { createContract } from '../services/contractApi';
 import { Drawer } from '../../../shared/components/Drawer';
 import { CreateContractSchema } from '../utils/validation';
+import { useProjectTypes } from '../hooks/useProjectTypes';
 
 const INITIAL_STATE = {
   title: '',
   type: 'SUBSCRIPTION',
+  projectType: '',
   counterparty: { id: null, name: '' },
   financials: { currency: 'USD', paymentSchedule: 'MONTHLY' },
   timeline: { startDate: '', endDate: '', autoRenew: true },
@@ -19,24 +21,33 @@ export const CreateContractDrawer = ({ isOpen, onClose, onSuccess }) => {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [createdContract, setCreatedContract] = useState(null);
+  const { options: projectTypeOptions } = useProjectTypes();
 
   React.useEffect(() => {
+    if (!isOpen) return;
+
     setForm(INITIAL_STATE);
     setError(null);
     setIsSubmitting(false);
     setShowAdvanced(false);
-  }, []);
+    setFieldErrors({});
+    setCreatedContract(null);
+  }, [isOpen]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
+    setFieldErrors({});
     
     try {
       // 1. Transform raw UI inputs to structured Schema format
       const rawPayload = {
         title: formData.title,
         type: formData.type,
+        projectType: formData.projectType,
         counterparty: formData.counterparty,
         financials: {
           currency: formData.financials.currency,
@@ -59,6 +70,7 @@ export const CreateContractDrawer = ({ isOpen, onClose, onSuccess }) => {
       const apiPayload = {
         title: validatedData.title,
         type: validatedData.type,
+        project_type: validatedData.projectType,
         financials: {
           tcv_cents: 0,
           acv_cents: 0,
@@ -80,12 +92,17 @@ export const CreateContractDrawer = ({ isOpen, onClose, onSuccess }) => {
       }
 
       // Dispatch
-      await createContract(apiPayload);
-      if (onSuccess) onSuccess();
-      onClose();
+      const created = await createContract(apiPayload);
+      setCreatedContract(created);
+      if (onSuccess) onSuccess(created);
     } catch (err) {
       if (err.errors) {
-         // Zod validation errors (naive display)
+         const nextFieldErrors = err.errors.reduce((acc, issue) => {
+           const key = issue.path.join('.');
+           if (!acc[key]) acc[key] = issue.message;
+           return acc;
+         }, {});
+         setFieldErrors(nextFieldErrors);
          setError(err.errors[0].message);
       } else if (err.response) {
          if (err.response.status === 409) {
@@ -108,6 +125,25 @@ export const CreateContractDrawer = ({ isOpen, onClose, onSuccess }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="New Contract" width="max-w-2xl">
       <div className="p-6 h-full flex flex-col bg-surface text-on-surface">
+        {createdContract ? (
+          <div className="flex-1 flex flex-col items-center justify-center text-center gap-4 py-12">
+            <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center">
+              <span className="material-symbols-outlined">check</span>
+            </div>
+            <div>
+              <h3 className="text-2xl font-bold text-on-surface">Contract created</h3>
+              <p className="mt-2 text-sm text-on-surface-variant">Your new contract ID is</p>
+              <p className="mt-3 font-mono text-xl font-bold text-on-surface bg-surface-container-low px-4 py-2 rounded-lg inline-block">
+                {createdContract.contract_code || createdContract.id}
+              </p>
+            </div>
+            <div className="flex gap-3 pt-2">
+              <Button type="button" variant="ghost" onClick={onClose}>
+                Close
+              </Button>
+            </div>
+          </div>
+        ) : (
         <form onSubmit={handleSubmit} className="flex-1 flex flex-col space-y-8 overflow-y-auto pr-2">
           {error && (
             <div className="p-4 bg-error-container text-on-error-container rounded-lg text-sm font-semibold">
@@ -143,6 +179,30 @@ export const CreateContractDrawer = ({ isOpen, onClose, onSuccess }) => {
                   </select>
                 </div>
                 <div>
+                  <label className="block text-xs font-bold text-on-surface-variant mb-1">Project Type *</label>
+                  <select
+                    value={formData.projectType}
+                    onChange={e => {
+                      const value = e.target.value;
+                      setForm({ ...formData, projectType: value });
+                      if (fieldErrors.projectType && value) {
+                        setFieldErrors((prev) => ({ ...prev, projectType: null }));
+                      }
+                    }}
+                    className="w-full p-2 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface text-sm outline-none focus:border-primary"
+                  >
+                    <option value="" disabled>Select project type</option>
+                    {projectTypeOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  {fieldErrors.projectType && (
+                    <p className="mt-1 text-xs font-medium text-error">{fieldErrors.projectType}</p>
+                  )}
+                </div>
+                <div className="col-span-2">
                   <label className="block text-xs font-bold text-on-surface-variant mb-1">Counterparty *</label>
                   <input 
                     value={formData.counterparty.name} 
@@ -277,6 +337,7 @@ export const CreateContractDrawer = ({ isOpen, onClose, onSuccess }) => {
             </Button>
           </div>
         </form>
+        )}
       </div>
     </Drawer>
   );
