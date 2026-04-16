@@ -35,7 +35,7 @@ export const Layout = () => {
         <nav className="flex-1 px-4 space-y-1">
           <NavLink 
             to="/dashboard" 
-            className={({isActive}) => `flex items-center gap-3 px-4 py-3 font-semibold transition-all group ${isActive ? 'text-primary border-r-4 border-primary bg-white/50' : 'text-on-surface-variant hover:bg-white/80'}`}
+            className={({isActive}) => `flex items-center gap-3 px-4 py-3 font-semibold transition-all group ${isActive ? 'text-primary border-r-4 border-primary bg-white/50' : 'text-on-surface-variant hover:bg-white/80 hover:text-black dark:hover:bg-slate-700 dark:hover:text-white'}`}
           >
             <span className="material-symbols-outlined">dashboard</span>
             <span>Dashboard</span>
@@ -43,21 +43,21 @@ export const Layout = () => {
           
           <NavLink 
             to="/contracts" 
-            className={({isActive}) => `flex items-center gap-3 px-4 py-3 font-semibold transition-all group ${isActive ? 'text-primary border-r-4 border-primary bg-white/50' : 'text-on-surface-variant hover:bg-white/80'}`}
+            className={({isActive}) => `flex items-center gap-3 px-4 py-3 font-semibold transition-all group ${isActive ? 'text-primary border-r-4 border-primary bg-white/50' : 'text-on-surface-variant hover:bg-white/80 hover:text-black dark:hover:bg-slate-700 dark:hover:text-white'}`}
           >
             <span className="material-symbols-outlined">description</span>
             <span>Contracts</span>
           </NavLink>
 
-          <button type="button" className="w-full flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/80 transition-colors group text-left">
+          <button type="button" className="w-full flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/80 hover:text-black dark:hover:text-black transition-colors group text-left">
             <span className="material-symbols-outlined">payments</span>
             <span>Finance</span>
           </button>
-          <button type="button" className="w-full flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/80 transition-colors group text-left">
+          <button type="button" className="w-full flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/80 hover:text-black dark:hover:text-black transition-colors group text-left">
             <span className="material-symbols-outlined">groups</span>
             <span>HR</span>
           </button>
-          <button type="button" className="w-full flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/80 transition-colors group text-left">
+          <button type="button" className="w-full flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/80 hover:text-black dark:hover:text-black transition-colors group text-left">
             <span className="material-symbols-outlined">analytics</span>
             <span>Analytics</span>
           </button>

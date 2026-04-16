@@ -28,7 +28,7 @@ export const ContractsList = () => {
     { header: 'ID', accessor: 'id', render: (row) => <span className="font-mono text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded truncate max-w-[80px] inline-block" title={row.id}>{row.id}</span> },
     { header: 'Title', accessor: 'title', render: (row) => <span className="font-semibold text-slate-700">{row.title}</span> },
     { header: 'Company', accessor: 'company', render: (row) => <span className="text-slate-500">{row.counterparty?.name || 'Unknown'}</span> },
-    { header: 'Date Added', accessor: 'dateAdded', render: (row) => <span className="text-slate-500">{row.audit?.createdAt ? new Date(row.audit.createdAt).toLocaleDateString() : 'N/A'}</span> },
+    { header: 'Start Date', accessor: 'dateAdded', render: (row) => <span className="text-slate-500">{row.audit?.createdAt ? new Date(row.audit.createdAt).toLocaleDateString() : 'N/A'}</span> },
     { header: 'End Date', accessor: 'expires', render: (row) => <span className="text-slate-500">{row.timeline?.endDate ? new Date(row.timeline.endDate).toLocaleDateString() : 'N/A'}</span> },
     { header: 'Status', accessor: 'status', render: (row) => <StatusBadge status={row.status} /> },
     { 

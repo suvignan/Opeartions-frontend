@@ -159,7 +159,6 @@ export const CreateContractDrawer = ({ isOpen, onClose, onSuccess }) => {
           <section className="space-y-4">
             <div className="flex items-center gap-2 border-b border-outline-variant/30 pb-2">
               <span className="material-symbols-outlined text-tertiary">payments</span>
-              <h3 className="text-sm font-bold text-tertiary uppercase tracking-widest">2. Financials</h3>
             </div>
             
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -203,7 +202,6 @@ export const CreateContractDrawer = ({ isOpen, onClose, onSuccess }) => {
           <section className="space-y-4">
             <div className="flex items-center gap-2 border-b border-outline-variant/30 pb-2">
               <span className="material-symbols-outlined text-secondary">calendar_today</span>
-              <h3 className="text-sm font-bold text-secondary uppercase tracking-widest">3. Timeline</h3>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>

@@ -26,7 +26,7 @@ export const Table = ({ columns, data, onRowClick, isLoading, emptyMessage = "No
             {columns.map((col, index) => (
               <th 
                 key={index} 
-                className="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-slate-400"
+                className="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-black dark:text-white"
               >
                 {col.header}
               </th>

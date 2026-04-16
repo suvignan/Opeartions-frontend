@@ -3,7 +3,7 @@ import { Search, Bell } from 'lucide-react';
 
 export const Header = () => {
   return (
-    <header className="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-200/50 shadow-sm shadow-indigo-900/5">
+    <header className="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 z-40 bg-white/80 dark:bg-slate-800/80 text-slate-900 dark:text-white backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 shadow-sm shadow-indigo-900/5">
       <div className="flex items-center justify-between px-8 w-full h-full">
         
         <div className="flex items-center flex-1 max-w-xl">
